@@ -18,23 +18,12 @@ bool is_PNG(FILE * image){
     return false;
 }
 
-void correct_litle_endian(Byte * bytes){
-    char reverse[4];
-    int i, r;
-    for (i = 0, r = 3; i < 4 && r >= 0; i++, r--){
-        reverse[i] = bytes[r];
-    }
-    for (i = 0; i < 4; i++)
-        bytes[i] = reverse[i];
-}
-
 Chunk * next_chunk(FILE * image){
     Chunk* block = (Chunk*)malloc(sizeof (Chunk));
     fread(block, 8, 1, image);
 
     // Corrigindo bug de little endian
     Byte * lenght = (Byte *)block;
-    correct_litle_endian(lenght);
 
     // Tem que vir antes do data, para não corromper os dados do mesmo
     block->type[4] = 0;
@@ -55,8 +44,6 @@ void trash_chunk(Chunk * block){
 
 IHDR* to_IHDR(const char * raw_data){
     Dimentions* data = (Dimentions*)raw_data;
-    correct_litle_endian(data->width);
-    correct_litle_endian(data->height);
     IHDR* header = (IHDR*)raw_data;
     return header;
 }

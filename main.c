@@ -22,8 +22,8 @@ int main(){
 
     // Convertendo Chunk para um cabeçalho
     IHDR * cabecalho = to_IHDR(bloco->data);
-    printf("Tamanho do cabecalho: %i, Largura: %i, Altura: %i\n",
-            bloco->lenght, cabecalho->height, cabecalho->width);
+    printf("Tamanho do cabecalho: %x\n",
+            bloco->lenght);
     trash_chunk(bloco);
     return 0;
 }
